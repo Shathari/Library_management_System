@@ -1,0 +1,91 @@
+﻿@* Pages/Shared/_Layout.cshtml *@
+@using System
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] is string t && !string.IsNullOrWhiteSpace(t) ? t + " - LMS" : "LMS")</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @RenderSection("Head", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-page="/Index">LMS</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#lmsNav"
+                        aria-controls="lmsNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="lmsNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a class="nav-link @(IsActive("/Books/Index"))" asp-page="/Books/Index">Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(IsActive("/Members/Index"))" asp-page="/Members/Index">Members</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(IsActive("/Loans/Index"))" asp-page="/Loans/Index">Loans</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(IsActive("/Returns/Index"))" asp-page="/Returns/Index">Returns</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        @* Optional per-page breadcrumb *@
+        @RenderSection("Breadcrumb", required: false)
+
+        @* Global alerts from TempData *@
+        @if (TempData["Success"] is string ok && !string.IsNullOrWhiteSpace(ok))
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @ok
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["Error"] is string err && !string.IsNullOrWhiteSpace(err))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @err
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © @DateTime.Now.Year - LMS
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @functions {
+        // Highlights the current nav item based on the Razor Pages "page" route value
+        private string IsActive(string pagePath)
+        {
+            var current = (ViewContext?.RouteData?.Values["page"] as string) ?? string.Empty;
+            return string.Equals(current, pagePath, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+        }
+    }
+</body>
+</html>

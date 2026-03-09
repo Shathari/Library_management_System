@@ -1,0 +1,59 @@
+@page
+@model LMS.Razor.Pages.Books.IndexModel
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h2 class="mb-3">Books</h2>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <!-- ✅ Use @Model.q (capital M) -->
+        <input class="form-control" name="q" value="@Model.q" placeholder="Search title/author/ISBN" />
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary" type="submit">Search</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Reset</a>
+    </div>
+    <div class="col text-end">
+        <a asp-page="Create" class="btn btn-success">+ Add Book</a>
+    </div>
+</form>
+
+@if (Model.BooksTable.Rows.Count == 0)
+{
+    <div class="alert alert-info">No books found.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>BookId</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Available</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (System.Data.DataRow row in Model.BooksTable.Rows)
+            {
+                <tr>
+                    <td>@row["BookId"]</td>
+                    <td>@row["Title"]</td>
+                    <td>@row["Author"]</td>
+                    <td>@row["AvailableCopies"]</td>
+                    <td>@row["TotalCopies"]</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@row["BookId"]">Edit</a> |
+                        <a asp-page="Delete" asp-route-id="@row["BookId"]">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

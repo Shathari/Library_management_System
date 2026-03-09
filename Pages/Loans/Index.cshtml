@@ -1,0 +1,48 @@
+@page
+@model LMS.Razor.Pages.Loans.IndexModel
+@{
+    ViewData["Title"] = "Loans";
+}
+
+<h2 class="mb-3">Loans</h2>
+
+<div class="mb-3">
+    <a asp-page="Issue" class="btn btn-success">+ Issue Book</a>
+</div>
+
+@if (Model.Items.Count == 0)
+{
+    <div class="alert alert-info">No loans yet.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th>LoanId</th>
+                <th>Member</th>
+                <th>Book</th>
+                <th>Issue</th>
+                <th>Due</th>
+                <th>Return</th>
+                <th>Fine</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var x in Model.Items)
+            {
+                <tr>
+                    <td>@x.LoanId</td>
+                    <td>@x.MemberName</td>
+                    <td>@x.BookTitle</td>
+                    <td>@x.IssueDate.ToString("dd-MMM-yyyy")</td>
+                    <td>@x.DueDate.ToString("dd-MMM-yyyy")</td>
+                    <td>@(x.ReturnDate?.ToString("dd-MMM-yyyy") ?? "-")</td>
+                    <td>@(x.FineAmount?.ToString("0.00") ?? "-")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model LMS.Razor.Pages.Books.EditModel
+<h2>Edit Book</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="BookId" />
+    <div>
+        <label>Title</label><br />
+        <input asp-for="Title" />
+    </div>
+    <div>
+        <label>Author</label><br />
+        <input asp-for="Author" />
+    </div>
+    <div>
+        <label>Copies</label><br />
+        <input asp-for="AvailableCopies" type="number" min="0" />
+    </div>
+    <p style="color:red">@Html.ValidationSummary()</p>
+    <button type="submit">Update</button>
+    <a asp-page="Index">Cancel</a>
+</form>

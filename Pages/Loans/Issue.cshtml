@@ -1,0 +1,42 @@
+@page
+@model LMS.Razor.Pages.Loans.IssueModel
+@{
+    ViewData["Title"] = "Issue a Book";
+}
+
+<h2 class="mb-3">Issue a Book</h2>
+
+<form method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Input.MemberId" class="form-label">Member</label>
+        <select asp-for="Input.MemberId" class="form-select"
+                asp-items="Model.MemberOptions">
+            <option value="">-- Select Member --</option>
+        </select>
+        <span asp-validation-for="Input.MemberId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Input.BookId" class="form-label">Book</label>
+        <select asp-for="Input.BookId" class="form-select"
+                asp-items="Model.BookOptions">
+            <option value="">-- Select Available Book --</option>
+        </select>
+        <span asp-validation-for="Input.BookId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Input.LoanDays" class="form-label">Loan Days</label>
+        <input asp-for="Input.LoanDays" class="form-control" />
+        <span asp-validation-for="Input.LoanDays" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Issue</button>
+        <a asp-page="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

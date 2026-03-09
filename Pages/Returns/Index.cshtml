@@ -1,0 +1,42 @@
+@page
+@model LMS.Razor.Pages.Returns.IndexModel
+<h2>Return a Book</h2>
+
+<form method="post">
+    <div>
+        <label>LoanId</label><br />
+        <input asp-for="LoanId" type="number" min="1" />
+    </div>
+    <button type="submit">Process Return</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <p><strong>@Model.Message</strong></p>
+}
+
+@if (Model.Result is not null && Model.Result.Rows.Count > 0)
+{
+    <h3>Return Details</h3>
+    <table border="1" cellpadding="6" style="border-collapse:collapse;">
+        <thead>
+        <tr>
+            @foreach (System.Data.DataColumn col in Model.Result.Columns)
+            {
+                <th>@col.ColumnName</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (System.Data.DataRow row in Model.Result.Rows)
+        {
+            <tr>
+                @foreach (var item in row.ItemArray)
+                {
+                    <td>@item</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,16 @@
+@page "{id:int}"
+@model LMS.Razor.Pages.Books.DeleteModel
+<h2>Delete Book</h2>
+
+@if (Model.Book is null)
+{
+    <p>Book not found.</p>
+}
+else
+{
+    <p>Are you sure you want to delete <strong>@Model.Book["Title"]</strong> by @Model.Book["Author"]?</p>
+    <form method="post">
+        <button type="submit">Yes, Delete</button>
+        <a asp-page="Index">Cancel</a>
+    </form>
+}
